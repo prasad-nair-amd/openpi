@@ -1,0 +1,46 @@
+# Requirements for CUDA benchmark scripts
+# benchmark_pi0_cuda.py, benchmark_pi0_aloha_cuda.py, benchmark_pi0_libero_cuda.py
+#
+# Installation:
+#   pip install -r requirements_cuda.txt
+#   or with uv:
+#   uv pip install -r requirements_cuda.txt
+
+# Core dependencies
+numpy>=1.24.0
+
+# PyTorch with CUDA 12.4 support
+# Install from PyTorch index for CUDA compatibility
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch>=2.0.0
+torchvision>=0.15.0
+
+# JAX with CUDA 12 support (optional - only needed if using --backend jax)
+# Uncomment the following lines if you want to use JAX backend:
+# --find-links https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+# jax[cuda12]>=0.4.20
+# jaxlib>=0.4.20
+
+# OpenPI package (install separately - see instructions below)
+# The openpi package should be installed with:
+#   GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
+# (from the openpi repository root)
+
+# Additional dependencies for simulation mode (--sim flag)
+# Uncomment if you need LIBERO simulation capabilities:
+# imageio>=2.31.0
+# imageio-ffmpeg>=0.4.9
+
+# Development/Testing (optional)
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
+
+# Notes:
+# ------
+# 1. NVIDIA GPU with CUDA 12.x drivers must be installed on your system
+# 2. Verify CUDA installation with: nvidia-smi
+# 3. The openpi package must be installed separately from its repository
+# 4. For LIBERO simulation benchmarks, additional setup is required:
+#    - git submodule update --init --recursive
+#    - pip install -e third_party/libero
+#    - pip install -e packages/openpi-client

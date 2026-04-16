@@ -1,0 +1,81 @@
+(base) amd@faegt001185:~/prasnair/PAI/pai4/openpi$ .venv/bin/python benchmark_pi0_libero_rocm.py   --checkpoint-dir /home/amd/.cache/openpi/openpi-assets/checkpoints/pi0_libero_pytorch   
+[+] AMD/ROCm devices:
+    rocm-smi:card0 (AMD Instinct MI300X)
+    rocm-smi:card1 (AMD Instinct MI300X)
+    rocm-smi:card2 (AMD Instinct MI300X)
+    rocm-smi:card3 (AMD Instinct MI300X)
+    rocm-smi:card4 (AMD Instinct MI300X)
+    rocm-smi:card5 (AMD Instinct MI300X)
+    rocm-smi:card6 (AMD Instinct MI300X)
+    rocm-smi:card7 (AMD Instinct MI300X)
+    torch:cuda:0 (AMD Instinct MI300X)
+    torch:cuda:1 (AMD Instinct MI300X)
+    torch:cuda:2 (AMD Instinct MI300X)
+    torch:cuda:3 (AMD Instinct MI300X)
+    torch:cuda:4 (AMD Instinct MI300X)
+    torch:cuda:5 (AMD Instinct MI300X)
+    torch:cuda:6 (AMD Instinct MI300X)
+    torch:cuda:7 (AMD Instinct MI300X)
+[+] torch 2.11.0+rocm7.2  HIP 7.2.26015  |  8 AMD GPU(s) visible
+[+] Using device: cuda:0  (AMD Instinct MI300X)
+2026-04-16 03:59:43,301 INFO PyTorch version 2.11.0+rocm7.2 available.
+2026-04-16 03:59:43,301 INFO Polars version 1.30.0 available.
+2026-04-16 03:59:43,302 INFO JAX version 0.5.3 available.
+2026-04-16 03:59:43,739 INFO Loading config 'pi0_libero' ...
+2026-04-16 03:59:43,739 INFO Checkpoint: /home/amd/.cache/openpi/openpi-assets/checkpoints/pi0_libero_pytorch
+2026-04-16 03:59:43,739 INFO Creating policy on device='cuda:0' (first run triggers JIT) — PyTorch backend ...
+2026-04-16 03:59:43,739 INFO Loading model...
+2026-04-16 03:59:43,739 INFO train_config: TrainConfig(name='pi0_libero', project_name='openpi', exp_name=<PropagatingMissingType id='130640244230672'>, model=Pi0Config(action_dim=32, action_horizon=50, max_token_len=48, dtype='bfloat16', paligemma_variant='gemma_2b', action_expert_variant='gemma_300m', pi05=False, discrete_state_input=False, pytorch_compile_mode='max-autotune'), weight_loader=CheckpointWeightLoader(params_path='gs://openpi-assets/checkpoints/pi0_base/params'), pytorch_weight_path=None, pytorch_training_precision='bfloat16', lr_schedule=CosineDecaySchedule(warmup_steps=1000, peak_lr=2.5e-05, decay_steps=30000, decay_lr=2.5e-06), optimizer=AdamW(b1=0.9, b2=0.95, eps=1e-08, weight_decay=1e-10, clip_gradient_norm=1.0), ema_decay=0.99, freeze_filter=Nothing(), data=LeRobotLiberoDataConfig(repo_id='physical-intelligence/libero', assets=AssetsConfig(assets_dir=None, asset_id=None), base_config=DataConfig(repo_id=None, asset_id=None, norm_stats=None, repack_transforms=Group(inputs=(), outputs=()), data_transforms=Group(inputs=(), outputs=()), model_transforms=Group(inputs=(), outputs=()), use_quantile_norm=False, action_sequence_keys=('actions',), prompt_from_task=True, rlds_data_dir=None, action_space=None, datasets=()), extra_delta_transform=True), assets_base_dir='./assets', checkpoint_base_dir='./checkpoints', seed=42, batch_size=32, num_workers=2, num_train_steps=30000, log_interval=100, save_interval=1000, keep_period=5000, overwrite=False, resume=False, wandb_enabled=True, policy_metadata=None, fsdp_devices=1)
+2026-04-16 04:00:53,775 INFO Norm stats not found in /home/amd/prasnair/PAI/pai4/openpi/assets/pi0_libero/physical-intelligence/libero, skipping.
+2026-04-16 04:00:53,776 INFO Loaded norm stats from /home/amd/.cache/openpi/openpi-assets/checkpoints/pi0_libero_pytorch/assets/physical-intelligence/libero
+2026-04-16 04:00:56,469 INFO Policy loaded in 72.7s  [device=cuda:0]
+2026-04-16 04:00:56,625 INFO Warmup (3 passes) ...
+/home/amd/prasnair/PAI/pai4/openpi/.venv/lib/python3.11/site-packages/torch/_dynamo/variables/functions.py:2082: UserWarning: Dynamo does not know how to trace the builtin `builtins.__build_class__.` This function is either a Python builtin (e.g. _warnings.warn) or a third-party C/C++ Python extension (perhaps created with pybind).
+If it is a Python builtin, please file an issue on GitHub so the PyTorch team can add support for it and see the next case for a workaround.
+If it is a third-party C/C++ Python extension, please either wrap it into a PyTorch-understood custom operator (see https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html for more details) or, if it is traceable, use `torch.compiler.allow_in_graph`.
+  torch._dynamo.utils.warn_once(explanation + "\n" + "\n".join(hints))
+  warmup 1/3  internal=14156.2ms
+  warmup 2/3  internal=351.7ms
+  warmup 3/3  internal=43.0ms
+2026-04-16 04:01:11,713 INFO Timed benchmark (20 passes) ...
+  run   4/20  wall=   45.5ms  internal=   42.3ms
+  run   8/20  wall=   45.9ms  internal=   42.7ms
+  run  12/20  wall=   45.6ms  internal=   42.4ms
+  run  16/20  wall=   45.7ms  internal=   42.5ms
+  run  20/20  wall=   45.6ms  internal=   42.3ms
+
+==============================================================
+  LIBERO Inference Benchmark  [pi0_libero]  [PYTORCH]
+==============================================================
+  Warmup : 3   Timed runs : 20
+
+  Latency (ms)
+    mean    :    50.03
+    median  :    45.75
+    std     :    12.76
+    min     :    45.46
+    max     :    87.35
+    p90     :    87.31
+    p99     :    87.35
+
+  Throughput : 19.986 inferences/sec
+  Action shape : (50, 7)
+
+  GPU VRAM (MB)
+    card0_used_mb: before=9607  after=10361  delta=754
+    card0_total_mb: before=196592  after=196592  delta=0
+    card1_used_mb: before=285  after=285  delta=1
+    card1_total_mb: before=196592  after=196592  delta=0
+    card2_used_mb: before=285  after=285  delta=1
+    card2_total_mb: before=196592  after=196592  delta=0
+    card3_used_mb: before=285  after=285  delta=1
+    card3_total_mb: before=196592  after=196592  delta=0
+    card4_used_mb: before=285  after=285  delta=1
+    card4_total_mb: before=196592  after=196592  delta=0
+    card5_used_mb: before=285  after=285  delta=1
+    card5_total_mb: before=196592  after=196592  delta=0
+    card6_used_mb: before=285  after=285  delta=1
+    card6_total_mb: before=196592  after=196592  delta=0
+    card7_used_mb: before=285  after=285  delta=1
+    card7_total_mb: before=196592  after=196592  delta=0
+==============================================================
